@@ -1,0 +1,6 @@
+@Shifts_Logger_HostAddress = http://localhost:5267
+
+GET {{Shifts_Logger_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
