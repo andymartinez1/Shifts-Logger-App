@@ -74,6 +74,6 @@ public class ShiftService : IShiftService
         _context.Shifts.Remove(shift);
         await _context.SaveChangesAsync();
 
-        return null; // Indicating successful deletion
+        return $"Shift with id {id} successfully deleted."; // Indicating successful deletion
     }
 }
