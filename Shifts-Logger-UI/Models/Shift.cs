@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Shifts_Logger_UI.Models;
 
 public class Shift
 {
+    [Key]
     [JsonProperty("id")]
     public int Id { get; set; }
 

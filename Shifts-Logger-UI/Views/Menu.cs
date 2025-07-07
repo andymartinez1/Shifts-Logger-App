@@ -46,6 +46,7 @@ public class Menu
                     break;
                 case Enums.Enums.MenuOptions.CreateShift:
                     AnsiConsole.Clear();
+                    await ShiftsController.CreateShiftAsync(ShiftsController._client);
                     break;
                 case Enums.Enums.MenuOptions.UpdateShift:
                     AnsiConsole.Clear();
