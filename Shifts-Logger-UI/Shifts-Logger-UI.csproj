@@ -7,6 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Spectre.Console" Version="0.50.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="docs\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shifts-Logger-API\Shifts-Logger-API.csproj" />
   </ItemGroup>
 </Project>

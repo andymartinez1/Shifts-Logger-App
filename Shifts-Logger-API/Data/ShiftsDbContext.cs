@@ -19,24 +19,24 @@ public class ShiftsDbContext : DbContext
                 EmployeeName = "Alice Smith",
                 Position = "Manager",
                 ShiftNumber = 1,
-                StartTime = DateTime.Now.AddHours(-8),
-                EndTime = DateTime.Now.AddHours(-4),
+                StartTime = new DateTime(2025, 7, 6, 0, 0, 0),
+                EndTime = new DateTime(2025, 7, 6, 8, 0, 0),
             },
             new Shift
             {
                 EmployeeName = "Bob Johnson",
                 Position = "Cashier",
                 ShiftNumber = 2,
-                StartTime = DateTime.Now.AddHours(-6),
-                EndTime = DateTime.Now.AddHours(-2),
+                StartTime = new DateTime(2025, 7, 6, 8, 0, 0),
+                EndTime = new DateTime(2025, 7, 6, 16, 0, 0),
             },
             new Shift
             {
                 EmployeeName = "Charlie Brown",
                 Position = "Stock Clerk",
                 ShiftNumber = 3,
-                StartTime = DateTime.Now.AddHours(-5),
-                EndTime = DateTime.Now.AddHours(-1),
+                StartTime = new DateTime(2025, 7, 6, 16, 0, 0),
+                EndTime = new DateTime(2025, 7, 7, 0, 0, 0),
             }
         );
 

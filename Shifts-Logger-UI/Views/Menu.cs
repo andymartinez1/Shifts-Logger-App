@@ -1,5 +1,5 @@
 ﻿using Phone_Book.Services;
-using Shifts_Logger_UI.Enums;
+using Shifts_Logger_UI.Controllers;
 using Spectre.Console;
 
 namespace Shifts_Logger_UI.Views;
@@ -16,16 +16,20 @@ public class Menu
         Enums.Enums.MenuOptions.Exit,
     ];
 
-    internal void MainMenu()
+    internal async Task MainMenu()
     {
+        var controller = new ShiftsController();
+        var ui = new UserInterface();
+
         var isMenuRunning = true;
 
         while (isMenuRunning)
         {
+            AnsiConsole.Write(new FigletText("Shifts Logger").Color(Color.Green));
+
             var userChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<Enums.Enums.MenuOptions>()
                     .Title("Select an option:")
-                    .PageSize(10)
                     .AddChoices(_menuOptions)
                     .UseConverter(c => c.GetDisplayName())
             );
@@ -34,9 +38,11 @@ public class Menu
             {
                 case Enums.Enums.MenuOptions.ViewAllShifts:
                     AnsiConsole.Clear();
+                    await ui.ViewAllShifts();
                     break;
                 case Enums.Enums.MenuOptions.ViewShiftById:
                     AnsiConsole.Clear();
+                    await ui.ViewShiftsById(await Helpers.ChooseShift());
                     break;
                 case Enums.Enums.MenuOptions.CreateShift:
                     AnsiConsole.Clear();
@@ -48,6 +54,7 @@ public class Menu
                     AnsiConsole.Clear();
                     break;
                 case Enums.Enums.MenuOptions.Exit:
+                    AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
                         "[red]Thank you for using Shifts Logger! Press any key to exit.[/]"
                     );
