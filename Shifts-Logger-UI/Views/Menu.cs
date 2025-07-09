@@ -66,6 +66,7 @@ public class Menu
                     );
                     Console.ReadKey();
                     isMenuRunning = false;
+                    Environment.Exit(0);
                     break;
             }
         }

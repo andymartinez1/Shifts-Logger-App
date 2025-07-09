@@ -2,8 +2,24 @@
 
 namespace Shifts_Logger_UI.Utils;
 
-public class Validator
+public static class Validator
 {
+    public static bool IsValidDate(string date, string format)
+    {
+        if (
+            !DateTime.TryParseExact(
+                date,
+                format,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out _
+            )
+        )
+            return false;
+
+        return true;
+    }
+
     public static bool IsStartDateBeforeEndDate(string startDate, string endDate)
     {
         var start = DateTime.ParseExact(

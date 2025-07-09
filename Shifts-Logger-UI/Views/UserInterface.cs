@@ -13,7 +13,7 @@ public class UserInterface
     {
         var shifts = await _shiftsController.GetAllShiftsAsync(_shiftsController.Client);
 
-        if (shifts == null || !shifts.Any())
+        if (!shifts.Any())
             AnsiConsole.MarkupLine("[red]No shifts found.[/]");
 
         var table = new Table();
@@ -36,11 +36,17 @@ public class UserInterface
                 $"{Math.Floor(shift.Duration.TotalHours)} hours {shift.Duration.TotalMinutes % 60} minutes"
             );
 
+        table.Expand();
         AnsiConsole.Write(table);
     }
 
     internal async Task ViewShiftsById(Shift shift)
     {
+        if (shift == null)
+        {
+            AnsiConsole.MarkupLine("[red]Shift not found.[/]");
+            return;
+        }
         var panel = new Panel(
             $"Id: {shift.Id} \nName: {shift.EmployeeName} \nPosition: {shift.Position} \nShift Number: {shift.ShiftNumber} \nStart Time: {shift.StartTime} \nEnd Time: {shift.EndTime} \nDuration: {Math.Floor(shift.Duration.TotalHours)} hours {shift.Duration.TotalMinutes % 60} minutes"
         );

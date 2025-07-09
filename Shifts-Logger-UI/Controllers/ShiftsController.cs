@@ -37,15 +37,14 @@ public class ShiftsController
     {
         try
         {
+            var dates = Helpers.GetDates();
             var newShift = new Shift
             {
                 EmployeeName = AnsiConsole.Ask<string>("Enter Employee Name: "),
                 Position = AnsiConsole.Ask<string>("Enter Position: "),
                 ShiftNumber = AnsiConsole.Ask<int>("Enter Shift Number (1, 2 or 3): "),
-                StartTime = AnsiConsole.Ask<DateTime>(
-                    "Enter Shift Start Time (yyyy-MM-dd HH:mm): "
-                ),
-                EndTime = AnsiConsole.Ask<DateTime>("Enter Shift End Time (yyyy-MM-dd HH:mm): "),
+                StartTime = dates[0],
+                EndTime = dates[1],
             };
 
             using var response = await client.PostAsJsonAsync("/api/shift", newShift);
@@ -70,15 +69,15 @@ public class ShiftsController
             var shift = await Helpers.ChooseShift();
             var id = shift.Id;
 
+            var dates = Helpers.GetDates();
+
             var updatedShift = new Shift
             {
                 EmployeeName = AnsiConsole.Ask<string>("Enter Employee Name: "),
                 Position = AnsiConsole.Ask<string>("Enter Position: "),
                 ShiftNumber = AnsiConsole.Ask<int>("Enter Shift Number (1, 2 or 3): "),
-                StartTime = AnsiConsole.Ask<DateTime>(
-                    "Enter Shift Start Time (yyyy-MM-dd HH:mm): "
-                ),
-                EndTime = AnsiConsole.Ask<DateTime>("Enter Shift End Time (yyyy-MM-dd HH:mm): "),
+                StartTime = dates[0],
+                EndTime = dates[1],
             };
 
             using var response = await client.PutAsJsonAsync($"/api/shift/{id}", updatedShift);
