@@ -1,15 +1,14 @@
 ﻿using System.Net.Http.Json;
 using Newtonsoft.Json;
-using Phone_Book.Services;
 using Shifts_Logger_UI.Models;
-using Shifts_Logger_UI.Utils;
+using Shifts_Logger_UI.Services;
 using Spectre.Console;
 
 namespace Shifts_Logger_UI.Controllers;
 
 public class ShiftsController
 {
-    internal static HttpClient _client = new() { BaseAddress = new Uri("http://localhost:5267") };
+    internal HttpClient Client = new() { BaseAddress = new Uri("http://localhost:5267") };
 
     internal async Task<List<Shift>> GetAllShiftsAsync(HttpClient client)
     {
@@ -34,7 +33,7 @@ public class ShiftsController
         }
     }
 
-    internal static async Task CreateShiftAsync(HttpClient client)
+    internal async Task CreateShiftAsync(HttpClient client)
     {
         try
         {
@@ -42,7 +41,7 @@ public class ShiftsController
             {
                 EmployeeName = AnsiConsole.Ask<string>("Enter Employee Name: "),
                 Position = AnsiConsole.Ask<string>("Enter Position: "),
-                ShiftNumber = AnsiConsole.Ask<int>("Enter Shift Number: "),
+                ShiftNumber = AnsiConsole.Ask<int>("Enter Shift Number (1, 2 or 3): "),
                 StartTime = AnsiConsole.Ask<DateTime>(
                     "Enter Shift Start Time (yyyy-MM-dd HH:mm): "
                 ),
@@ -64,22 +63,56 @@ public class ShiftsController
         }
     }
 
-    internal static async Task UpdateShift(HttpClient client)
+    internal async Task UpdateShift(HttpClient client)
     {
         try
         {
-            var shift = Helpers.ChooseShift();
+            var shift = await Helpers.ChooseShift();
             var id = shift.Id;
 
-            using var response = await client.GetAsync($"/api/shift/{id}");
+            var updatedShift = new Shift
+            {
+                EmployeeName = AnsiConsole.Ask<string>("Enter Employee Name: "),
+                Position = AnsiConsole.Ask<string>("Enter Position: "),
+                ShiftNumber = AnsiConsole.Ask<int>("Enter Shift Number (1, 2 or 3): "),
+                StartTime = AnsiConsole.Ask<DateTime>(
+                    "Enter Shift Start Time (yyyy-MM-dd HH:mm): "
+                ),
+                EndTime = AnsiConsole.Ask<DateTime>("Enter Shift End Time (yyyy-MM-dd HH:mm): "),
+            };
+
+            using var response = await client.PutAsJsonAsync($"/api/shift/{id}", updatedShift);
 
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            JsonConvert.DeserializeObject<Shift>(jsonResponse);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
+    internal async Task DeleteShift(HttpClient client)
+    {
+        try
+        {
+            var shift = await Helpers.ChooseShift();
+            var id = shift.Id;
+
+            using var response = await client.DeleteAsync($"/api/shift/{id}");
+
+            response.EnsureSuccessStatusCode();
+
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[green]Shift deleted successfully![/]");
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteLine(ex.Message);
             throw;
         }
     }

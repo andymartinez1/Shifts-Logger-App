@@ -2,13 +2,15 @@
 using System.Reflection;
 using Shifts_Logger_UI.Controllers;
 using Shifts_Logger_UI.Models;
+using Shifts_Logger_UI.Views;
 using Spectre.Console;
 
-namespace Phone_Book.Services;
+namespace Shifts_Logger_UI.Services;
 
 public static class Helpers
 {
-    private static readonly ShiftsController _shiftsController = new();
+    private static readonly ShiftsController Controller = new();
+    private static readonly UserInterface Ui = new();
 
     public static string GetDisplayName(this Enum enumValue)
     {
@@ -22,7 +24,9 @@ public static class Helpers
 
     internal static async Task<Shift> ChooseShift()
     {
-        var shifts = await _shiftsController.GetAllShiftsAsync(ShiftsController._client);
+        await Ui.ViewAllShifts();
+
+        var shifts = await Controller.GetAllShiftsAsync(Controller.Client);
 
         var shiftArray = shifts.Select(s => s.Id).ToArray();
 

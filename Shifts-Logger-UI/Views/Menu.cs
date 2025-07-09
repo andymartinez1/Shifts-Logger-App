@@ -1,5 +1,5 @@
-﻿using Phone_Book.Services;
-using Shifts_Logger_UI.Controllers;
+﻿using Shifts_Logger_UI.Controllers;
+using Shifts_Logger_UI.Services;
 using Spectre.Console;
 
 namespace Shifts_Logger_UI.Views;
@@ -39,6 +39,9 @@ public class Menu
                 case Enums.Enums.MenuOptions.ViewAllShifts:
                     AnsiConsole.Clear();
                     await ui.ViewAllShifts();
+                    AnsiConsole.WriteLine("Press any key to return to the main menu...");
+                    Console.ReadKey();
+                    AnsiConsole.Clear();
                     break;
                 case Enums.Enums.MenuOptions.ViewShiftById:
                     AnsiConsole.Clear();
@@ -46,18 +49,20 @@ public class Menu
                     break;
                 case Enums.Enums.MenuOptions.CreateShift:
                     AnsiConsole.Clear();
-                    await ShiftsController.CreateShiftAsync(ShiftsController._client);
+                    await controller.CreateShiftAsync(controller.Client);
                     break;
                 case Enums.Enums.MenuOptions.UpdateShift:
                     AnsiConsole.Clear();
+                    await controller.UpdateShift(controller.Client);
                     break;
                 case Enums.Enums.MenuOptions.DeleteShift:
                     AnsiConsole.Clear();
+                    await controller.DeleteShift(controller.Client);
                     break;
                 case Enums.Enums.MenuOptions.Exit:
                     AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
-                        "[red]Thank you for using Shifts Logger! Press any key to exit.[/]"
+                        "[blue]Thank you for using Shifts Logger! Press any key to exit.[/]"
                     );
                     Console.ReadKey();
                     isMenuRunning = false;

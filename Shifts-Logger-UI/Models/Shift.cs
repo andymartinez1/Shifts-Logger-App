@@ -10,10 +10,10 @@ public class Shift
     public int Id { get; set; }
 
     [JsonProperty("employeeName")]
-    public string EmployeeName { get; set; }
+    public string EmployeeName { get; set; } = string.Empty;
 
     [JsonProperty("position")]
-    public string Position { get; set; }
+    public string Position { get; set; } = string.Empty;
 
     [JsonProperty("shiftNumber")]
     public int ShiftNumber { get; set; }

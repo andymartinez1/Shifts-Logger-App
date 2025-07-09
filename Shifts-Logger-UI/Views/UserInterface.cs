@@ -1,6 +1,7 @@
 ﻿using Shifts_Logger_UI.Controllers;
 using Shifts_Logger_UI.Models;
 using Spectre.Console;
+using Table = Spectre.Console.Table;
 
 namespace Shifts_Logger_UI.Views;
 
@@ -10,7 +11,7 @@ public class UserInterface
 
     internal async Task ViewAllShifts()
     {
-        var shifts = await _shiftsController.GetAllShiftsAsync(ShiftsController._client);
+        var shifts = await _shiftsController.GetAllShiftsAsync(_shiftsController.Client);
 
         if (shifts == null || !shifts.Any())
             AnsiConsole.MarkupLine("[red]No shifts found.[/]");
@@ -36,9 +37,6 @@ public class UserInterface
             );
 
         AnsiConsole.Write(table);
-        AnsiConsole.WriteLine("Press any key to return to the main menu...");
-        Console.ReadKey();
-        AnsiConsole.Clear();
     }
 
     internal async Task ViewShiftsById(Shift shift)
